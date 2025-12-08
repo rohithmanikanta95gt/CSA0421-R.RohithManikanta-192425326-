@@ -1,0 +1,94 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char dir[20][20];
+    int n = 0, choice;
+    char name[20];
+    int i, found;
+
+    while (1) {
+        printf("\n1. Create File\n2. Delete File\n3. Search File\n4. Display Directory\n5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+        case 1:
+            printf("Enter file name: ");
+            scanf("%s", name);
+
+            found = 0;
+            for (i = 0; i < n; i++) {
+                if (strcmp(dir[i], name) == 0) {
+                    found = 1;
+                    break;
+                }
+            }
+
+            if (found)
+                printf("File already exists.\n");
+            else {
+                strcpy(dir[n], name);
+                n++;
+                printf("File created.\n");
+            }
+            break;
+
+        case 2:
+            printf("Enter file name to delete: ");
+            scanf("%s", name);
+
+            found = -1;
+            for (i = 0; i < n; i++) {
+                if (strcmp(dir[i], name) == 0) {
+                    found = i;
+                    break;
+                }
+            }
+
+            if (found == -1)
+                printf("File not found.\n");
+            else {
+                for (i = found; i < n - 1; i++)
+                    strcpy(dir[i], dir[i + 1]);
+
+                n--;
+                printf("File deleted.\n");
+            }
+            break;
+
+        case 3:
+            printf("Enter file name to search: ");
+            scanf("%s", name);
+
+            found = 0;
+            for (i = 0; i < n; i++) {
+                if (strcmp(dir[i], name) == 0) {
+                    found = 1;
+                    break;
+                }
+            }
+
+            if (found)
+                printf("File found.\n");
+            else
+                printf("File not found.\n");
+            break;
+
+        case 4:
+            printf("\nCurrent Directory:\n");
+            if (n == 0)
+                printf("Directory is empty.\n");
+            else
+                for (i = 0; i < n; i++)
+                    printf("%s\n", dir[i]);
+            break;
+
+        case 5:
+            return 0;
+
+        default:
+            printf("Invalid choice.\n");
+        }
+    }
+}
