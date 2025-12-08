@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <string.h>
+
+char user[10][20], files[10][10][20];
+int uc = 0, fc[10];
+
+int main() {
+    int ch, i, j, u; 
+    char uname[20], fname[20];
+
+    while (1) {
+        printf("\n1.Create User 2.Add File 3.Search 4.Display 5.Exit\n");
+        scanf("%d", &ch);
+
+        if (ch == 1) {
+            scanf("%s", uname);
+            for (i = 0; i < uc; i++)
+                if (!strcmp(user[i], uname)) break;
+            if (i == uc) { strcpy(user[uc], uname); fc[uc++] = 0; }
+            else printf("User exists\n");
+        }
+
+        else if (ch == 2) {
+            scanf("%s", uname);
+            for (u = 0; u < uc; u++)
+                if (!strcmp(user[u], uname)) break;
+            if (u == uc) { printf("No user\n"); continue; }
+            scanf("%s", fname);
+            for (i = 0; i < fc[u]; i++)
+                if (!strcmp(files[u][i], fname)) break;
+            if (i == fc[u]) strcpy(files[u][fc[u]++], fname);
+            else printf("File exists\n");
+        }
+
+        else if (ch == 3) {
+            scanf("%s", fname);
+            int f = 0;
+            for (u = 0; u < uc; u++)
+                for (i = 0; i < fc[u]; i++)
+                    if (!strcmp(files[u][i], fname)) {
+                        printf("Found under %s\n", user[u]);
+                        f = 1;
+                    }
+            if (!f) printf("Not found\n");
+        }
+
+        else if (ch == 4) {
+            for (u = 0; u < uc; u++) {
+                printf("%s:\n", user[u]);
+                for (i = 0; i < fc[u]; i++)
+                    printf("  %s\n", files[u][i]);
+            }
+        }
+
+        else return 0;
+    }
+}
